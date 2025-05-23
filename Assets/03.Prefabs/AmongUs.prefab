@@ -560,7 +560,7 @@ GameObject:
   - component: {fileID: 3221150932410524877}
   m_Layer: 0
   m_Name: AmongUs
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
