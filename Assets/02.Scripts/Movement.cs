@@ -18,13 +18,21 @@ public class Movement : MonoBehaviour
         /// 총 쏘기 -> 마우스 좌클릭
         /// 등등..
         
-        float h = Input.GetAxis("Horizontal");
-        float v = Input.GetAxis("Vertical");
+        // 부드럽게 이동
+        float h = Input.GetAxis("Horizontal"); // 값이 -1, 0, 1
+        float v = Input.GetAxis("Vertical"); // 값이 -1, 0, 1
+        
+        // 딱 떨어지는 값
+        // float h = Input.GetAxisRaw("Horizontal"); // 값이 -1, 0, 1
+        // float v = Input.GetAxisRaw("Vertical"); // 값이 -1, 0, 1
         
         Vector3 dir = new Vector3(h, 0, v);
         // Debug.Log($"현재 입력 : {dir}");
         
-        transform.position += dir * (speed * Time.deltaTime);
-        
+        Vector3 normalDir = dir.normalized; // dir 정규화 (0~1)
+        // 이동
+        transform.position += normalDir * (speed * Time.deltaTime);
+        // 회전
+        transform.LookAt(transform.position + normalDir);
     }
 }
