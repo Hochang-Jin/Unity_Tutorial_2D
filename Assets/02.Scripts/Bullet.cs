@@ -7,7 +7,7 @@ public class Bullet : MonoBehaviour
 
     private void Start()
     {
-        Destroy(gameObject, 5f);
+        Destroy(gameObject, 5f); // 5초 뒤 파괴
     }
 
     void Update()
