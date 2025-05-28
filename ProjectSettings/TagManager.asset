@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Monster
   - TrackingObject
+  - Ground
   layers:
   - Default
   - TransparentFX

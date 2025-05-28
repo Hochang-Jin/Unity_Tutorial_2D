@@ -23,4 +23,14 @@ public class CarMovement : MonoBehaviour
         // Rigidbody 이동
         carRB.linearVelocityX = h * moveSpeed;
     }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        Debug.Log("CollisionEnter");
+    }
+
+    private void OnCollisionStay2D(Collision2D other)
+    {
+        Debug.Log("CollisionStay");
+    }
 }
