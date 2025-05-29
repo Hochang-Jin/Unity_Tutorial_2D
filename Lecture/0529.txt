@@ -1,0 +1,8 @@
+2025.05.29 THU
+핀볼
+--2D Sprite Shape
+--Hinge Joint
+문 애니메이션
+--Prefap Unpack
+--Make Animation
+--Animator
