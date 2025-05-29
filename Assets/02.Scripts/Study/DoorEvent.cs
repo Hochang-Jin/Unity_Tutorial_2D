@@ -12,6 +12,11 @@ public class DoorEvent : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        animator.SetTrigger("DoorControl");
+        animator.SetTrigger("DoorOpen");
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        animator.SetTrigger("DoorClose");
     }
 }
