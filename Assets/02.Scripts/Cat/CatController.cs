@@ -5,7 +5,7 @@ public class CatController : MonoBehaviour
 {
     private Rigidbody2D catRB;
     // 땅 확인
-    private bool isGround = true;
+    // private bool isGround = true;
     
     // 최대 점프 횟수
     [SerializeField]
@@ -40,14 +40,14 @@ public class CatController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Ground"))
         {
-            isGround = true;
+            // isGround = true;
             jumpCount = 0;
         }
     }
 
-    private void OnCollisionExit2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("Ground"))
-            isGround = false;
-    }
+    // private void OnCollisionExit2D(Collision2D other)
+    // {
+    //     if (other.gameObject.CompareTag("Ground"))
+    //         isGround = false;
+    // }
 }

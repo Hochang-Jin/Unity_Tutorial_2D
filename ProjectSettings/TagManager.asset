@@ -9,6 +9,10 @@ TagManager:
   - Monster
   - TrackingObject
   - Ground
+  - Score10
+  - Score30
+  - Score50
+  - GameOver
   layers:
   - Default
   - TransparentFX
