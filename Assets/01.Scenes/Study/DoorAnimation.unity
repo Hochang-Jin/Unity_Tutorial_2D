@@ -986,6 +986,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 188312f3f0e22e443b9a0f24217ec79d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  openKey: DoorOpen
+  closeKey: DoorClose
 --- !u!65 &1583611940
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1507,6 +1509,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 188312f3f0e22e443b9a0f24217ec79d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  openKey: DoorOpen
+  closeKey: DoorClose
 --- !u!65 &8875449793393964361
 BoxCollider:
   m_ObjectHideFlags: 0

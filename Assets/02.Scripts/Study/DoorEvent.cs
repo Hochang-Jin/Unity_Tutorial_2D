@@ -4,6 +4,8 @@ using UnityEngine;
 public class DoorEvent : MonoBehaviour
 {
     private Animator animator;
+    [SerializeField] private string openKey;
+    [SerializeField] private string closeKey;
 
     private void Start()
     {
@@ -12,11 +14,12 @@ public class DoorEvent : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        animator.SetTrigger("DoorOpen");
+        if(other.CompareTag("Player"))
+            animator.SetTrigger(openKey);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        animator.SetTrigger("DoorClose");
+        animator.SetTrigger(closeKey);
     }
 }
