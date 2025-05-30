@@ -4,6 +4,8 @@ public class Movement : MonoBehaviour
 {
     public float speed;
 
+    public static int coinCount = 0;
+
     void Start()
     {
         // this.transform.position += Vector3.forward;
