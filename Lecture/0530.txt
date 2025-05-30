@@ -1,0 +1,9 @@
+2025.05.30 FRI YAHO
+3D 애니메이션
+-- 양문
+-- 코인 회전
+-- static 변수 활용한 coin count
+2D 애니메이션
+-- sprite animation
+-- flip
+-- jump
