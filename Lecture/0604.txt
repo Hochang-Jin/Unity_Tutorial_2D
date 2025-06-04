@@ -1,0 +1,11 @@
+2025.06.04 WED
+고양이 점프 애니메이션
+사운드
+-- AudioSource
+-- AudioClip
+UI
+-- Canvas
+-- Panel
+-- Image
+-- TextMeshPro
+-- Button
