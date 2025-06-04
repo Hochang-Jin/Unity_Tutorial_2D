@@ -1,10 +1,15 @@
 using System;
+using Cat;
 using UnityEngine;
 
 public class CatController : MonoBehaviour
 {
     private Rigidbody2D catRB;
     private Animator catAnim;
+    
+    // 점프 소리 재생
+    [SerializeField]
+    private SoundManager soundManager;
     // 땅 확인
     // private bool isGround = true;
     
@@ -30,6 +35,7 @@ public class CatController : MonoBehaviour
             catRB.AddForceY(jumpForce, ForceMode2D.Impulse);
             catAnim.SetTrigger("Jump");
             jumpCount++;
+            soundManager.OnJumpSound();
         }
        
 
