@@ -3,6 +3,8 @@ using UnityEngine;
 public class ColliderEvent : MonoBehaviour
 {
     public float speed = 5f;
+    public GameObject fadeUI;
+    
     void Update()
     {
         this.transform.position += Vector3.left*(speed * Time.deltaTime);
@@ -19,7 +21,7 @@ public class ColliderEvent : MonoBehaviour
         
         if (other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Game Over");
+            fadeUI.SetActive(true);
         }
     }
 }

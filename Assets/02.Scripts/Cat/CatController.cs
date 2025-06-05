@@ -21,6 +21,7 @@ public class CatController : MonoBehaviour
     
     [SerializeField]
     private float jumpForce = 10f;
+    public float limitPower = 9f;
     
     void Start()
     {
@@ -36,6 +37,9 @@ public class CatController : MonoBehaviour
             catAnim.SetTrigger("Jump");
             jumpCount++;
             soundManager.OnJumpSound();
+            
+            if (catRB.linearVelocityY > limitPower) // 자연스러운 점프를 위한 속도 제한
+                catRB.linearVelocityY = limitPower;
         }
        
 
