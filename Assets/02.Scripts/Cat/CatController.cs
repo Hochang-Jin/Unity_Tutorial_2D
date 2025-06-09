@@ -41,7 +41,11 @@ public class CatController : MonoBehaviour
             if (catRB.linearVelocityY > limitPower) // 자연스러운 점프를 위한 속도 제한
                 catRB.linearVelocityY = limitPower;
         }
-       
+        
+        // 고양이 회전
+        var catRotation = transform.eulerAngles;
+        catRotation.z = catRB.linearVelocityY * 2.5f;
+        transform.eulerAngles = catRotation;
 
         // if (Input.GetKeyDown(KeyCode.Space))
         // {
