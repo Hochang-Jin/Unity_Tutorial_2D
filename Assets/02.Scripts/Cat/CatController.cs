@@ -10,8 +10,12 @@ public class CatController : MonoBehaviour
     // 점프 소리 재생
     [SerializeField]
     private SoundManager soundManager;
-    // 땅 확인
-    // private bool isGround = true;
+  
+    public GameObject gameOverUI;
+    public GameObject fadeUI;
+
+    public GameObject happyVideo;
+    public GameObject unhappyVideo;
     
     // 최대 점프 횟수
     [SerializeField]
@@ -46,26 +50,72 @@ public class CatController : MonoBehaviour
         var catRotation = transform.eulerAngles;
         catRotation.z = catRB.linearVelocityY * 2.5f;
         transform.eulerAngles = catRotation;
+    }
 
-        // if (Input.GetKeyDown(KeyCode.Space))
-        // {
-        //     catRB.AddForceY(jumpForce, ForceMode2D.Impulse);
-        // }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Apple"))
+        {
+            // 사과 이미지 끄기
+            other.gameObject.SetActive(false);
+            // 점수 추가
+            GameManager.score++; // score가 static이기 때문에 GameManager 클래스에서 접근 가능
+            // 파티클 켜기
+            other.transform.parent.GetComponent<ItemEvent>().particle.SetActive(true);
+            
+            // 10개 이상의 사과를 먹었을 때 게임 클리어
+            if (GameManager.score == 10)
+            {
+                fadeUI.SetActive(true);
+                fadeUI.GetComponent<FadeRoutine>().OnFade(3f,Color.white);
+                // Cat Collider off
+                this.GetComponent<CircleCollider2D>().enabled = false;
+                
+                Invoke(nameof(HappyVideo),4f);
+                GameManager.isGameOver = true;
+            }
+            
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Ground"))
         {
-            // isGround = true;
             jumpCount = 0;
             catAnim.SetTrigger("Ground");
         }
+        else if(other.gameObject.CompareTag("Enemy"))
+        {
+            // TODO : FADE, SOUND, OUTRO
+            // Sound
+            soundManager.OnCollisionSound();
+            // Fade, Outro
+            gameOverUI.SetActive(true);
+            fadeUI.SetActive(true);
+            fadeUI.GetComponent<FadeRoutine>().OnFade(3f, Color.black);
+            // Cat Collider off
+            this.GetComponent<CircleCollider2D>().enabled = false;
+            
+            Invoke(nameof(UnHappyVideo),4f);
+            GameManager.isGameOver = true;
+        }
     }
 
-    // private void OnCollisionExit2D(Collision2D other)
-    // {
-    //     if (other.gameObject.CompareTag("Ground"))
-    //         catAnim.SetBool("isGround", false);
-    // }
+    void UnHappyVideo()
+    {
+        unhappyVideo.SetActive(true);
+        fadeUI.SetActive(false);
+        gameOverUI.SetActive(false);
+        
+        soundManager.audioSource.mute = true;
+    }
+    void HappyVideo()
+    {
+        happyVideo.SetActive(true);
+        fadeUI.SetActive(false);
+        gameOverUI.SetActive(false);
+        
+        soundManager.audioSource.mute = true;
+    }
 }
