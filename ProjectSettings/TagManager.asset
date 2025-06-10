@@ -13,6 +13,7 @@ TagManager:
   - Score30
   - Score50
   - GameOver
+  - Apple
   layers:
   - Default
   - TransparentFX
