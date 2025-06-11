@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Cat;
 using UnityEngine;
 
@@ -10,12 +11,11 @@ public class CatController : MonoBehaviour
     // 점프 소리 재생
     [SerializeField]
     private SoundManager soundManager;
+    [SerializeField]
+    private VideoManager videoManager;
   
     public GameObject gameOverUI;
     public GameObject fadeUI;
-
-    public GameObject happyVideo;
-    public GameObject unhappyVideo;
     
     // 최대 점프 횟수
     [SerializeField]
@@ -71,7 +71,8 @@ public class CatController : MonoBehaviour
                 // Cat Collider off
                 this.GetComponent<CircleCollider2D>().enabled = false;
                 
-                Invoke(nameof(HappyVideo),4f);
+                // Invoke(nameof(HappyVideo),4f);
+                StartCoroutine(EndingRoutine(true));
                 GameManager.isGameOver = true;
             }
             
@@ -97,25 +98,40 @@ public class CatController : MonoBehaviour
             // Cat Collider off
             this.GetComponent<CircleCollider2D>().enabled = false;
             
-            Invoke(nameof(UnHappyVideo),4f);
+            //Invoke(nameof(UnHappyVideo),4f);
+            StartCoroutine(EndingRoutine(false));
+            
             GameManager.isGameOver = true;
         }
     }
 
-    void UnHappyVideo()
+    IEnumerator EndingRoutine(bool isHappy)
     {
-        unhappyVideo.SetActive(true);
+        yield return new WaitForSeconds(4f);
+        videoManager.VideoPlay(isHappy);
+        
         fadeUI.SetActive(false);
         gameOverUI.SetActive(false);
+        soundManager.audioSource.mute = true;
+    }
+    /* 
+    void UnHappyVideo()
+    {
+        // fadeUI.SetActive(false);
+        // gameOverUI.SetActive(false);
+        
+        videoManager.VideoPlay(false);
         
         soundManager.audioSource.mute = true;
     }
     void HappyVideo()
     {
-        happyVideo.SetActive(true);
-        fadeUI.SetActive(false);
-        gameOverUI.SetActive(false);
+        // fadeUI.SetActive(false);
+        // gameOverUI.SetActive(false);
+        
+        videoManager.VideoPlay(true);
         
         soundManager.audioSource.mute = true;
     }
+     */
 }
