@@ -26,14 +26,31 @@ public class CatController : MonoBehaviour
     [SerializeField]
     private float jumpForce = 10f;
     public float limitPower = 9f;
+
+    private Vector3 initPos;
     
-    void Start()
+    void Awake()
     {
         catRB = GetComponent<Rigidbody2D>();
         catAnim = GetComponent<Animator>();
+        
+        initPos = transform.position;
+    }
+
+    // 초기화 정보 (껐다 켜서 초기화 할 예정)
+    private void OnEnable()
+    {
+        transform.position = initPos;
+        GetComponent<CircleCollider2D>().enabled = true;
+        soundManager.audioSource.mute = false;
     }
 
     void Update()
+    {
+        Jump();
+    }
+
+    private void Jump()
     {
         if (Input.GetKeyDown(KeyCode.Space) && jumpCount < maxJumpCount)
         {
@@ -67,7 +84,7 @@ public class CatController : MonoBehaviour
             if (GameManager.score == 10)
             {
                 fadeUI.SetActive(true);
-                fadeUI.GetComponent<FadeRoutine>().OnFade(3f,Color.white);
+                fadeUI.GetComponent<FadeRoutine>().OnFade(2f,Color.white);
                 // Cat Collider off
                 this.GetComponent<CircleCollider2D>().enabled = false;
                 
@@ -94,7 +111,7 @@ public class CatController : MonoBehaviour
             // Fade, Outro
             gameOverUI.SetActive(true);
             fadeUI.SetActive(true);
-            fadeUI.GetComponent<FadeRoutine>().OnFade(3f, Color.black);
+            fadeUI.GetComponent<FadeRoutine>().OnFade(2f, Color.black);
             // Cat Collider off
             this.GetComponent<CircleCollider2D>().enabled = false;
             
@@ -107,12 +124,20 @@ public class CatController : MonoBehaviour
 
     IEnumerator EndingRoutine(bool isHappy)
     {
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(3f);
+        
+        soundManager.audioSource.mute = true;
         videoManager.VideoPlay(isHappy);
+        yield return new WaitForSeconds(1f);
+   
+        var color = isHappy ? Color.white : Color.black;
+        fadeUI.GetComponent<FadeRoutine>().OnFade(1f, color, false);
+        yield return new WaitForSeconds(2f);
         
         fadeUI.SetActive(false);
         gameOverUI.SetActive(false);
-        soundManager.audioSource.mute = true;
+        
+        transform.parent.gameObject.SetActive(false); // Play 오브젝트 끄기
     }
     /* 
     void UnHappyVideo()

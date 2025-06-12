@@ -13,6 +13,8 @@ namespace Cat
         public GameObject playOBJ;
         public GameObject introUI;
         public Button startButton;
+        public Button restartButton;
+        public GameObject outroPanel;
 
         public SoundManager soundManager;
 
@@ -26,6 +28,7 @@ namespace Cat
         void Start()
         {
             startButton.onClick.AddListener(OnStartEvent);
+            restartButton.onClick.AddListener(OnRestartEvent);
         }
         
         public void OnStartEvent()
@@ -43,6 +46,19 @@ namespace Cat
             soundManager.SetBGMSound(false);
         }
 
+        public void OnRestartEvent()
+        {
+            playUI.SetActive(true);
+            playOBJ.SetActive(true);
+
+            GameManager.score = 0;
+            GameManager.isPlay = true;
+            GameManager.isGameOver = false;
+            GameManager.timer = 0;
+            
+            outroPanel.SetActive(false);
+        }
+        
         public void GameOver()
         {
             playUI.SetActive(false);

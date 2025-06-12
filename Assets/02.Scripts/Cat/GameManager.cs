@@ -11,7 +11,7 @@ namespace Cat
         public SoundManager soundManager;
         public UIManager uiManager;
         
-        private float timer;
+        public static float timer;
         public static int score;
         public static bool isPlay = false;
         public static bool isGameOver = false;

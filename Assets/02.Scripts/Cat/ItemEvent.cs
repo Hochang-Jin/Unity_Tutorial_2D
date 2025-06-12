@@ -16,10 +16,17 @@ public class ItemEvent : MonoBehaviour
 
     private float returnPosX = 12f;
     private float randomPosY;
+    
+    private float initPosX;
 
-    private void Start()
+    private void Awake()
     {
-        SetItem(transform.position.x);
+        initPosX = transform.position.x;
+    }
+
+    private void OnEnable()
+    {
+        SetItem(initPosX);
     }
 
     void Update()

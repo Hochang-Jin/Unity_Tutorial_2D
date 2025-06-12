@@ -9,19 +9,22 @@ public class FadeRoutine : MonoBehaviour
 
     [SerializeField] private bool isFade = false;
 
-    public void OnFade(float targetTime, Color color)
+    public void OnFade(float targetTime, Color color, bool isFadeStart = true)
     {
-        StartCoroutine(Fade(targetTime, color));
+        StartCoroutine(Fade(targetTime, color,  isFadeStart));
     }
     
-    IEnumerator Fade(float targetTime, Color color)
+    IEnumerator Fade(float targetTime, Color color, bool isFadeStart)
     { 
         float timer = 0f;
+      
+        
         while (timer <= targetTime)
         {
            
             float percent = timer / targetTime;
-            float value = isFade ? percent : 1 - percent; // isFade가 참이면 a값이 늘어나고, 거짓이면 줄어듬
+            
+            float value = isFadeStart ? percent : 1 - percent; // isFade가 참이면 a값이 늘어나고, 거짓이면 줄어듬
             
             timer += Time.deltaTime;
             
