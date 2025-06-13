@@ -1,0 +1,9 @@
+2025.06.13 FRI
+Casting
+-- up/down casting
+Generic
+Inheritance
+-- overloading
+-- override
+-- virture 
+-- abstract
