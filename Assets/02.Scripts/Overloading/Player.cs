@@ -1,16 +1,17 @@
-using System;
 using UnityEngine;
 
-public class Monster : Character
+public class Player : Character
 {
     public override void Attack()
     {
         base.Attack();
-        Debug.Log("Monster 공격");
+        Debug.Log("Player 공격");
     }
 
     public override void Move()
     {
-        Debug.Log("Monster 이동");
+        Debug.Log("Player 이동");
     }
+
+    
 }
