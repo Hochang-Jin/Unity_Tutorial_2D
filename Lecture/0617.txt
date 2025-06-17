@@ -1,0 +1,9 @@
+2025.06.17 TUE 
+캡슐화
+-- 접근 제한자
+-- 프로퍼티
+-- 어트리뷰트
+Interface
+-- Item interface
+Monster 
+-- inheritance
