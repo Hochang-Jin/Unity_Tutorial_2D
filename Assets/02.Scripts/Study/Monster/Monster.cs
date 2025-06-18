@@ -1,19 +1,27 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public abstract class Monster : MonoBehaviour
 {
     [SerializeField] protected float hp = 3f;
     [SerializeField] protected float moveSpeed = 3f;
+    private Spawner spawner;
+    
     private SpriteRenderer sRenderer;
+    private Animator animator;
 
     public int dir = 1; // 방향 
+    private bool isMoving = true;
+    private bool isHit = false;
 
     public abstract void Init();
     
     private void Start()
     {
         sRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
+        spawner = FindFirstObjectByType<Spawner>();
         
         Init();
     }
@@ -25,11 +33,13 @@ public abstract class Monster : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Hit(1);
+        StartCoroutine(Hit(1));
     }
 
     void Move()
     {
+        if(!isMoving) return;
+        
         transform.position += Vector3.right * (dir * moveSpeed * Time.deltaTime);
         if (this.transform.position.x > 8f)
         {
@@ -43,16 +53,31 @@ public abstract class Monster : MonoBehaviour
         }
     }
 
-    void Hit(float damage)
-    {
+    IEnumerator Hit(float damage)
+    {  
+        if (isHit)
+            yield break;
+        
+        isMoving = false;
+        isHit = true;
         hp -= damage;
-        Debug.Log($"{this.name}가 {damage} 만큼 대미지를 받음.");
-        Debug.Log($"{this.name}의 현재 hp : {hp}");
+      
+        animator.SetTrigger("Hit");
 
         if (hp <= 0)
         {
-            Debug.Log($"{this.name} 죽음");
-            Destroy(this.gameObject);
+            animator.SetTrigger("Death");
+            isMoving = false;
+            isHit = true;
+            spawner.DropCoin(this.transform.position);
+            
+            yield return new WaitForSeconds(2f);
+            this.gameObject.SetActive(false);
+            yield break;
         }
+        yield return new WaitForSeconds(0.5f);
+        isMoving = true;
+        isHit = false;
     }
+    
 }
