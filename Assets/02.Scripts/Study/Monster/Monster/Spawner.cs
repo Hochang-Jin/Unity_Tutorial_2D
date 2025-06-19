@@ -34,6 +34,5 @@ public class Spawner : MonoBehaviour
         
         dropItemRB.AddForceX(randomXPower, ForceMode2D.Impulse);
         dropItemRB.AddForceY(3f, ForceMode2D.Impulse);
-        
     }
 }

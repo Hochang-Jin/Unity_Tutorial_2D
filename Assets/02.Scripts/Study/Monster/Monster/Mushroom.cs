@@ -4,7 +4,7 @@ public class Mushroom : Monster
 {
     public override void Init()
     {
-        hp = 8f;
+        hp = 1f;
         moveSpeed = 2f;
     }
 }

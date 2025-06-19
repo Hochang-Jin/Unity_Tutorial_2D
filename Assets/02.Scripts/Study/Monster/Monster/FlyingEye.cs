@@ -6,7 +6,7 @@ public class FlyingEye : Monster
 {
     public override void Init()
     {
-        hp = 4f;
+        hp = 1f;
         moveSpeed = 10f;
     }
 }
