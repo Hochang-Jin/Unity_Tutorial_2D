@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class KnightController_Joystick : MonoBehaviour
 {
@@ -9,6 +10,11 @@ public class KnightController_Joystick : MonoBehaviour
     private Vector3 inputDir;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpPower = 8f;
+    [SerializeField] private Button jumpButton;
+    [SerializeField] private Button attackButton;
+
+    private bool isCombo;
+    private bool isAttack;
 
     private bool isGround;
     
@@ -16,16 +22,15 @@ public class KnightController_Joystick : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         knightRb = GetComponent<Rigidbody2D>();
+        jumpButton.onClick.AddListener(Jump);
+        attackButton.onClick.AddListener(Attack);
     }
-
-    void Update()
-    {
-        
-    }
+    
 
     private void FixedUpdate()
     {
         Move();
+        Fall();
     }
     
 
@@ -35,9 +40,24 @@ public class KnightController_Joystick : MonoBehaviour
             knightRb.linearVelocityX = inputDir.x * moveSpeed;
     }
 
+    public void InputJoystick(float x, float y)
+    {
+        inputDir = new Vector3(x, y, 0).normalized;
+        
+        animator.SetFloat("JoystickX",inputDir.x);
+        animator.SetFloat("JoystickY",inputDir.y);
+        
+        // flipX
+        if (inputDir.x != 0)
+        {
+            var scaleX = inputDir.x > 0 ? 1 : -1;
+            transform.localScale = new Vector3(scaleX, 1, 1);
+        }
+    }
+
     void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (isGround)
         {
             if(!isGround) return;
             animator.SetTrigger("Jump");
@@ -45,23 +65,38 @@ public class KnightController_Joystick : MonoBehaviour
             knightRb.AddForceY(jumpPower, ForceMode2D.Impulse);
             isGround = false;
         }
-        
-        if(knightRb.linearVelocityY < 0 )
-            animator.SetBool("isFall", true);
     }
 
-    void SetAnimation()
+    void Attack()
     {
-        if (inputDir.x != 0)
-            animator.SetBool("isRun", true);
-        else if (inputDir.x == 0)
-            animator.SetBool("isRun", false);
-
-        if (inputDir.x != 0)
+        if (!isAttack)
         {
-            var scaleX = inputDir.x > 0 ? 1 : -1;
-            transform.localScale = new Vector3(scaleX, 1, 1);
+            isAttack = true;
+            animator.SetTrigger("Attack");
         }
+        else
+        {
+            isCombo = true;
+        }
+    }
+    
+    public void CheckCombo()
+    {
+        if (isCombo)
+        {
+            animator.SetBool("isCombo", true);
+        }
+        else
+        {
+            animator.SetBool("isCombo", false);
+            isAttack = false;
+        }
+    }
+    
+    void Fall()
+    {
+        if(knightRb.linearVelocityY < 0 )
+            animator.SetBool("isFall", true);
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -74,4 +109,6 @@ public class KnightController_Joystick : MonoBehaviour
             animator.SetBool("isFall", false);
         }
     }
+
+    
 }
