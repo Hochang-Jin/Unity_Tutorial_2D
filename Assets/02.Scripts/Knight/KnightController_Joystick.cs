@@ -13,6 +13,8 @@ public class KnightController_Joystick : MonoBehaviour
     [SerializeField] private Button jumpButton;
     [SerializeField] private Button attackButton;
 
+    private float attackDamage = 3f;
+    
     private bool isCombo;
     private bool isAttack;
 
@@ -71,6 +73,7 @@ public class KnightController_Joystick : MonoBehaviour
     {
         if (!isAttack)
         {
+            attackDamage = 3f;
             isAttack = true;
             animator.SetTrigger("Attack");
         }
@@ -84,6 +87,7 @@ public class KnightController_Joystick : MonoBehaviour
     {
         if (isCombo)
         {
+            attackDamage = 5f;
             animator.SetBool("isCombo", true);
         }
         else
@@ -116,5 +120,11 @@ public class KnightController_Joystick : MonoBehaviour
         }
     }
 
-    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Monster"))
+        {
+            Debug.Log($"{attackDamage}로 공격");
+        }
+    }
 }
