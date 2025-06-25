@@ -9,7 +9,11 @@ public class KnightController_Keyboard : MonoBehaviour
     private Vector3 inputDir;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpPower = 8f;
-
+    
+    private float attackDamage = 3f;
+    
+    private bool isCombo;
+    private bool isAttack;
     private bool isGround;
     
     void Start()
@@ -34,15 +38,57 @@ public class KnightController_Keyboard : MonoBehaviour
         float v = Input.GetAxis("Vertical");
         
         inputDir = new Vector3(h, v, 0);
-
-        SetAnimation();
+        animator.SetFloat("JoystickX",inputDir.x);
+        animator.SetFloat("JoystickY",inputDir.y);
+        
+        if(Input.GetKeyDown(KeyCode.Z))
+            Attack();
+        
         Jump();
     }
+    
+    void Attack()
+    {
+        if (!isAttack)
+        {
+            attackDamage = 3f;
+            isAttack = true;
+            animator.SetTrigger("Attack");
+        }
+        else
+        {
+            isCombo = true;
+        }
+    }
+    
+    public void CheckCombo()
+    {
+        if (isCombo)
+        {
+            attackDamage = 5f;
+            animator.SetBool("isCombo", true);
+        }
+        else
+        {
+            animator.SetBool("isCombo", false);
+            isAttack = false;
+        }
+    }
 
+    public void EndCombo()
+    {
+        isAttack = false;
+        isCombo = false;
+    }
+    
     void Move()
     {
         if (inputDir.x != 0)
+        {
+            var scaleX = inputDir.x > 0 ? 1 : -1;
+            transform.localScale = new Vector3(scaleX, 1, 1);
             knightRb.linearVelocityX = inputDir.x * moveSpeed;
+        }
     }
 
     void Jump()
@@ -60,20 +106,6 @@ public class KnightController_Keyboard : MonoBehaviour
             animator.SetBool("isFall", true);
     }
 
-    void SetAnimation()
-    {
-        if (inputDir.x != 0)
-            animator.SetBool("isRun", true);
-        else if (inputDir.x == 0)
-            animator.SetBool("isRun", false);
-
-        if (inputDir.x != 0)
-        {
-            var scaleX = inputDir.x > 0 ? 1 : -1;
-            transform.localScale = new Vector3(scaleX, 1, 1);
-        }
-    }
-
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Ground"))
@@ -82,6 +114,14 @@ public class KnightController_Keyboard : MonoBehaviour
             isGround = true;
 
             animator.SetBool("isFall", false);
+        }
+    }
+    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Monster"))
+        {
+            Debug.Log($"{attackDamage}로 공격");
         }
     }
 }

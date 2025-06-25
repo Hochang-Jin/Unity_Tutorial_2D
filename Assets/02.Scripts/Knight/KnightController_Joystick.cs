@@ -17,7 +17,6 @@ public class KnightController_Joystick : MonoBehaviour
     
     private bool isCombo;
     private bool isAttack;
-
     private bool isGround;
     
     void Start()
